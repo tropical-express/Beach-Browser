@@ -1,0 +1,43 @@
+{
+  "name": "beach-browser",
+  "version": "1.0.0",
+  "description": "A beach-themed Chromium browser built with Electron",
+  "author": "Jacob",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^39.2.6",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.jacob.beachbrowser",
+    "productName": "Beach Browser",
+    "directories": {
+      "buildResources": "."
+    },
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "palm-tree.ico",
+      "signAndEditExecutable": false,
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Beach Browser"
+    }
+  }
+}

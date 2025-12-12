@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:Segoe UI;padding:30px;background:#6dd5ed">
+<h1>⚙️ Settings</h1>
+<label>Default Engine:
+<select id="engine">
+  <option value="duckduckgo">DuckDuckGo</option>
+  <option value="google">Google</option>
+  <option value="bing">Bing</option>
+  <option value="brave">Brave</option>
+</select>
+</label>
+
+<script>
+const e=document.getElementById("engine");
+e.value=localStorage.getItem("engine")||"duckduckgo";
+e.onchange=()=>localStorage.setItem("engine",e.value);
+</script>
+</body>
+</html>

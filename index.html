@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Beach Browser</title>
+<style>
+body { margin:0;font-family:Segoe UI;background:#e0f7fa; }
+#toolbar { display:flex;gap:8px;padding:10px;background:#f8b500; }
+#tabs { display:flex;gap:6px;padding:6px;background:#b2ebf2; }
+.tab { padding:6px 10px;border-radius:8px;background:#81d4fa;cursor:pointer; }
+input,select,button { padding:6px;border-radius:6px;border:none; }
+#url { flex:1; }
+</style>
+</head>
+
+<body>
+<div id="toolbar">
+  🌊 Beach Browser
+  <button onclick="browser.back()">◀</button>
+  <button onclick="browser.forward()">▶</button>
+  <button onclick="browser.reload()">⟳</button>
+
+  <select id="engine">
+    <option value="duckduckgo">DuckDuckGo</option>
+    <option value="google">Google</option>
+    <option value="bing">Bing</option>
+    <option value="brave">Brave</option>
+  </select>
+
+  <input id="url" placeholder="Search or URL">
+  <button onclick="go()">Go</button>
+  <button onclick="browser.newTab()">＋</button>
+  <button onclick="browser.openSettings()">⚙️</button>
+</div>
+
+<div id="tabs"></div>
+
+<script>
+const engines = {
+  duckduckgo:q=>`https://duckduckgo.com/?q=${q}`,
+  google:q=>`https://www.google.com/search?q=${q}`,
+  bing:q=>`https://www.bing.com/search?q=${q}`,
+  brave:q=>`https://search.brave.com/search?q=${q}`
+};
+
+const engine = document.getElementById("engine");
+engine.value = localStorage.getItem("engine") || "duckduckgo";
+engine.onchange = () => localStorage.setItem("engine", engine.value);
+
+function go() {
+  let v = url.value.trim();
+  let urlToGo = v.includes(".") && !v.includes(" ")
+    ? (v.startsWith("http") ? v : "https://" + v)
+    : engines[engine.value](encodeURIComponent(v));
+  browser.navigate(urlToGo);
+}
+
+browser.onTabs(tabs => {
+  document.getElementById("tabs").innerHTML =
+    tabs.map(t => `<div class="tab" onclick="browser.switchTab(${t.id})">${t.title}</div>`).join("");
+});
+</script>
+</body>
+</html>
